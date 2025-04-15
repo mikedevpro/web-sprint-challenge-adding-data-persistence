@@ -39,7 +39,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.use((err, req, res, next) => {
+router.use((err, req, res, next) => { //eslint-disable-line
   res.status(500).json({
     customMessage: "Problem from Task router",
     message: err.message,
