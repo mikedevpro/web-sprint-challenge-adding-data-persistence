@@ -1,29 +1,40 @@
 // build your `/api/tasks` router here
+
 const express = require('express')
-
 const router = express.Router();
+const Task = require('../task/model')
 
-const {
-  getTasks,
-  insertTask
-} = require('./model')
+// const {
+//   getTasks,
+//   insertTask
+// } = require('./model')
 
 
 router.get("/", (req, res, next) => {
-  getTasks()
-    .then(projects => {
-      res.json(projects);
+  Task.getAll()
+    .then(project => {
+      res.json(project);
     })
     .catch(next);
 });
 
 router.post('/', (req, res, next) => {
-  insertTask(req.body)
-  .then(task => {
-    res.status(201).json(task);
-  })
-  .catch(next)
+  const newProject = req.body
+
+  Task.insertTask(newProject)
+    .then(addProject => {
+      res.status(201).json(addProject);
+    })
+    .catch(next)
 })
+
+router.use((err, req, res, next) => { //eslint-disable-line
+  res.status(err.status || 500).json({
+    customMessage: "Problem from Task router",
+    err: err.message,
+    stack: err.stack,
+  });
+});
 
 // router.post("/", async (req, res) => {
 //   try {
@@ -53,13 +64,7 @@ router.post('/', (req, res, next) => {
 //   }
 // });
 
-// router.use((err, req, res, next) => { //eslint-disable-line
-//   res.status(500).json({
-//     customMessage: "Problem from Task router",
-//     message: err.message,
-//     stack: err.stack,
-//   });
-// });
+
 
 
 module.exports = router;
