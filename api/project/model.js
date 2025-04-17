@@ -1,4 +1,4 @@
-// build your `Project` model here
+
 const db = require('../../data/dbConfig');
 
 const getProjectById = async (project_id) => {
