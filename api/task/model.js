@@ -13,7 +13,7 @@ const getTaskById = async (task_id) => {
 const getTasks = async () => {
   const data = await db('tasks as t')
     .innerJoin('project as p', 't.project_id', 'p.project_id')
-    .select('t*', 'project_name', 'project_description');
+    .select('*', 'project_name', 'project_description');
   const result = data.map(item => {
     return {
       ...item,
